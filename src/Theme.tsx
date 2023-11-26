@@ -1,15 +1,7 @@
-import React, {
-  Fragment,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
-  memo,
-  FC,
-} from "react";
+import React, { FC, useCallback, useEffect, useState, useMemo } from "react";
 import ThemeScript from "./ThemeScript";
-import { useTheme, UseThemeProps } from "./useTheme";
+import { ThemeProviderProps } from "./ThemeProvider";
+import ThemeContext from "./ThemeContext";
 import { getTheme, disableAnimation, getSystemTheme } from "./Helpers";
 
 const colorSchemes = ["light", "dark"];
@@ -22,7 +14,7 @@ const Theme: FC<ThemeProviderProps> = ({
   enableSystem = true,
   enableColorScheme = true,
   storageKey = "theme",
-  themes = defaultThemes,
+  themes = ["light", "dark"],
   defaultTheme = enableSystem ? "system" : "light",
   attribute = "data-theme",
   value,
@@ -74,17 +66,20 @@ const Theme: FC<ThemeProviderProps> = ({
   }, []);
 
   const setTheme = useCallback(
-    (theme: string | ((theme: string) => string)) => {
-      const newTheme = typeof theme === "function" ? theme(theme) : theme;
-      setThemeState(newTheme);
+    (newTheme: string | ((currentTheme: string) => string)) => {
+      const resolvedTheme =
+        typeof newTheme === "function"
+          ? (newTheme as (currentTheme: string) => string)(theme)
+          : newTheme;
+      setThemeState(resolvedTheme);
 
       try {
-        localStorage.setItem(storageKey, newTheme);
+        localStorage.setItem(storageKey, resolvedTheme);
       } catch (e) {
         // Unsupported
       }
     },
-    [forcedTheme]
+    [theme, setThemeState, storageKey]
   );
 
   const handleMediaQuery = useCallback(
