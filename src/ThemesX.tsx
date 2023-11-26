@@ -124,9 +124,7 @@ const Theme: FC<ThemeProviderProps> = ({
 
       try {
         localStorage.setItem(storageKey, resolvedTheme);
-      } catch (e) {
-        // Unsupported
-      }
+      } catch (e) {}
     },
     [theme, setThemeState, storageKey, forcedTheme]
   );
