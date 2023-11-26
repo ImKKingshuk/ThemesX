@@ -1,3 +1,10 @@
+//
+// ThemesX
+// by ImKKingshuk
+// Git-  https://github.com/ImKKingshuk/ThemesX.git
+// Copyright © 2023 , @ImKKingshuk | All Rights Reserved.
+// GNU General Public License v3.0 or later
+//
 import React, { FC, useCallback, useEffect, useState, useMemo } from "react";
 import ThemeScript from "./ThemeScript";
 import { ThemeProviderProps } from "./ThemeProvider";
