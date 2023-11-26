@@ -1,8 +1,8 @@
-import React, { Fragment, useMemo, FC } from "react";
+import React, { Fragment, useMemo, useContext, FC, ReactNode } from "react";
 import Theme from "./Theme";
 import ThemeContext from "./ThemeContext";
 
-interface ThemeProviderProps {
+export interface ThemeProviderProps {
   themes?: string[] | undefined;
   forcedTheme?: string | undefined;
   enableSystem?: boolean | undefined;
@@ -13,6 +13,7 @@ interface ThemeProviderProps {
   attribute?: string | "class" | undefined;
   value?: Record<string, string> | undefined;
   nonce?: string | undefined;
+  children?: ReactNode | undefined;
 }
 
 const ThemeProvider: FC<ThemeProviderProps> = ({
