@@ -313,7 +313,7 @@ const ThemeScript: FC<
       <script nonce={nonce} dangerouslySetInnerHTML={{ __html: scriptSrc }} />
     );
   },
-  // Never re-render this component
+
   () => true
 );
 
