@@ -1,0 +1,37 @@
+# Ignore node modules and build files
+node_modules/
+.gitignore
+
+# Ignore source files if compiled output is in dist/
+src/
+
+# Ignore test files and configurations
+__tests__/
+tests/
+*.test.js
+*.test.ts
+vitest.config.js
+coverage/
+
+# Ignore configs and environment files
+.eslintrc*
+.prettierrc*
+.prettierignore
+npm-debug.log*
+tsconfig.json
+tsconfig.*.json
+*.config.js
+*.config.cjs
+*.config.mjs
+.vscode/
+.idea/
+.rslib/
+.env
+.env.*
+
+# Ignore temporary and build artifacts
+*.log
+*.lock
+.DS_Store
+*.swp
+Thumbs.db
