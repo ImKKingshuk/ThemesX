@@ -12,8 +12,8 @@ const ThemeContext = React.createContext<ThemeContextType | undefined>(
 
 interface ThemeProviderProps {
   children: React.ReactNode;
-  enableSystemTheme?: boolean; // Enable system theme detection (default: true)
-  defaultTheme?: Theme; // Default theme to use (default: "system")
+  enableSystemTheme?: boolean;
+  defaultTheme?: Theme;
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({
@@ -25,7 +25,25 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
-    // This effect runs only on the client after mounting
+    // Inject theme CSS styles directly into the document head
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = `
+      :root {
+        --background-color: #ffffff;
+        --text-color: #000000;
+      }
+      [data-theme="dark"] {
+        --background-color: #121212;
+        --text-color: #ffffff;
+      }
+      body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        transition: background-color 0.3s, color 0.3s;
+      }
+    `;
+    document.head.appendChild(styleElement);
+
     const savedTheme = (typeof window !== 'undefined' &&
       localStorage.getItem('theme')) as Theme;
     const initialTheme = savedTheme || defaultTheme;
@@ -33,6 +51,11 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     setTheme(initialTheme);
     applyTheme(initialTheme);
     setMounted(true);
+
+    return () => {
+      // Clean up injected styles on unmount
+      document.head.removeChild(styleElement);
+    };
   }, [defaultTheme]);
 
   const applyTheme = React.useCallback(
@@ -46,11 +69,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
         root.setAttribute('data-theme', 'light');
         root.classList.remove('dark');
       } else if (enableSystemTheme) {
-        // Handle system theme detection
         const systemDarkMode = window.matchMedia(
           '(prefers-color-scheme: dark)',
         ).matches;
-
         root.setAttribute('data-theme', systemDarkMode ? 'dark' : 'light');
         root.classList.toggle('dark', systemDarkMode);
       }
@@ -63,7 +84,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 
     const handleSystemThemeChange = (e: MediaQueryListEvent) => {
       if (theme === 'system' && enableSystemTheme) {
-        applyTheme('system'); // Rerun applyTheme on system theme change
+        applyTheme('system');
       }
     };
 
@@ -85,7 +106,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     applyTheme(newTheme);
   };
 
-  if (!mounted) return null; // Prevents SSR issues with `localStorage`
+  if (!mounted) return null;
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme: updateTheme }}>
