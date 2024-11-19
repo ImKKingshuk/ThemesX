@@ -32,7 +32,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
         --background-color: #ffffff;
         --text-color: #000000;
       }
-      [data-theme="dark"] {
+      [XtrixUI-theme="dark"] {
         --background-color: #121212;
         --text-color: #ffffff;
       }
@@ -63,16 +63,16 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
       const root = document.documentElement;
 
       if (newTheme === 'dark') {
-        root.setAttribute('data-theme', 'dark');
+        root.setAttribute('XtrixUI-theme', 'dark');
         root.classList.add('dark');
       } else if (newTheme === 'light') {
-        root.setAttribute('data-theme', 'light');
+        root.setAttribute('XtrixUI-theme', 'light');
         root.classList.remove('dark');
       } else if (enableSystemTheme) {
         const systemDarkMode = window.matchMedia(
           '(prefers-color-scheme: dark)',
         ).matches;
-        root.setAttribute('data-theme', systemDarkMode ? 'dark' : 'light');
+        root.setAttribute('XtrixUI-theme', systemDarkMode ? 'dark' : 'light');
         root.classList.toggle('dark', systemDarkMode);
       }
     },
