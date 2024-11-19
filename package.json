@@ -32,6 +32,15 @@
   "homepage": "https://github.com/ImKKingshuk/ThemesX#readme",
   "keywords": [
     "react themes",
+    "next-themes",
+    "nextjs-themes",
+    "next theme",
+    "nextjs dark mode",
+    "react-themes",
+    "astro-themes",
+    "remix-themes",
+    "gatsby-themes",
+    "react dark mode",
     "dark mode utility",
     "dark mode"
   ],
@@ -55,5 +64,4 @@
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   }
-
 }
