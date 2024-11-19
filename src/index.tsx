@@ -12,7 +12,7 @@ const ThemeContext = React.createContext<ThemeContextType | undefined>(
   undefined,
 );
 
-interface ThemeProviderProps {
+export interface ThemeProviderProps {
   children: React.ReactNode;
   enableSystemTheme?: boolean;
   defaultTheme?: Theme;
