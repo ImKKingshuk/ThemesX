@@ -44,6 +44,29 @@ pnpm add themesx
 yarn add themesx
 ```
 
+## API Reference
+
+### `ThemeProvider`
+
+The `ThemeProvider` component wraps your application to provide global theme state and CSS support.
+
+| Prop                | Type                                | Default    | Description                                   |
+| ------------------- | ----------------------------------- | ---------- | --------------------------------------------- |
+| `children`          | `ReactNode`                         | —          | Components wrapped inside the provider.       |
+| `defaultTheme`      | `'light'` \| `'dark'` \| `'system'` | `'system'` | Initial theme.                                |
+| `enableSystemTheme` | `boolean`                           | `true`     | Automatically adapts to system theme changes. |
+
+### `useTheme`
+
+A hook to access and control the theme state. Use `useTheme` to set and toggle themes in any component.
+
+```typescript
+const { theme, setTheme } = useTheme();
+```
+
+- **`theme`**: The current theme (`"light"`, `"dark"`, or `"system"`).
+- **`setTheme`**: Function to change the theme; accepts `"light"`, `"dark"`, or `"system"` as parameters.
+
 ## Usage
 
 ### Basic Setup
@@ -260,28 +283,6 @@ const App = () => (
 
 export default App;
 ```
-
-## API Reference
-
-### `ThemeProvider`
-
-The `ThemeProvider` component wraps your application to provide global theme state and CSS support.
-
-- **Props**:
-  - `children`: The components to render within the `ThemeProvider`.
-  - `enableSystemTheme`: (Optional) Boolean to enable automatic system theme detection.
-  - `defaultTheme`: (Optional) Sets the default theme (`"light"`, `"dark"`, or `"system"`).
-
-### `useTheme`
-
-A hook to access and control the theme state. Use `useTheme` to set and toggle themes in any component.
-
-```typescript
-const { theme, setTheme } = useTheme();
-```
-
-- **`theme`**: The current theme (`"light"`, `"dark"`, or `"system"`).
-- **`setTheme`**: Function to change the theme; accepts `"light"`, `"dark"`, or `"system"` as parameters.
 
 ## License
 
