@@ -33,7 +33,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
         --text-color: #000000;
       }
       [XtrixUI-theme="dark"] {
-        --background-color: #121212;
+        --background-color: #000000;
         --text-color: #ffffff;
       }
       body {
