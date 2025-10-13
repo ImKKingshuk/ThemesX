@@ -26,13 +26,15 @@ npm install themesx
 ### 2. Update Imports
 
 **Before (next-themes):**
+
 ```tsx
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider } from "next-themes";
 ```
 
 **After (ThemesX):**
+
 ```tsx
-import { ThemeProvider } from 'themesx';
+import { ThemeProvider } from "themesx";
 ```
 
 ### 3. Update Provider (Minimal Changes)
@@ -40,6 +42,7 @@ import { ThemeProvider } from 'themesx';
 Most of your existing code will work with minimal changes!
 
 **Before (next-themes):**
+
 ```tsx
 <ThemeProvider attribute="class" defaultTheme="system">
   <Component {...pageProps} />
@@ -47,6 +50,7 @@ Most of your existing code will work with minimal changes!
 ```
 
 **After (ThemesX):**
+
 ```tsx
 <ThemeProvider attribute="class" defaultTheme="system">
   <Component {...pageProps} />
@@ -57,38 +61,39 @@ Most of your existing code will work with minimal changes!
 
 ### ThemeProvider Props
 
-| next-themes | ThemesX | Status | Notes |
-|------------|---------|--------|-------|
-| `attribute` | `attribute` | ✅ Compatible | Same functionality |
-| `defaultTheme` | `defaultTheme` | ✅ Compatible | Same values |
-| `enableSystem` | `enableSystemTheme` | ⚠️ Renamed | Just rename the prop |
-| `storageKey` | `config.storageKey` | ⚠️ Moved | Now in config object |
-| `themes` | N/A | ⚠️ Different | Use config.variants instead |
-| `forcedTheme` | N/A | ❌ Not supported | Use defaultTheme |
-| `enableColorScheme` | `config.forceColorScheme` | ⚠️ Moved | Now in config object |
-| `disableTransitionOnChange` | `config.disableTransitions` | ⚠️ Renamed | Inverted logic |
+| next-themes                 | ThemesX                     | Status           | Notes                       |
+| --------------------------- | --------------------------- | ---------------- | --------------------------- |
+| `attribute`                 | `attribute`                 | ✅ Compatible    | Same functionality          |
+| `defaultTheme`              | `defaultTheme`              | ✅ Compatible    | Same values                 |
+| `enableSystem`              | `enableSystemTheme`         | ⚠️ Renamed       | Just rename the prop        |
+| `storageKey`                | `config.storageKey`         | ⚠️ Moved         | Now in config object        |
+| `themes`                    | N/A                         | ⚠️ Different     | Use config.variants instead |
+| `forcedTheme`               | N/A                         | ❌ Not supported | Use defaultTheme            |
+| `enableColorScheme`         | `config.forceColorScheme`   | ⚠️ Moved         | Now in config object        |
+| `disableTransitionOnChange` | `config.disableTransitions` | ⚠️ Renamed       | Inverted logic              |
 
 ### useTheme Hook
 
-| next-themes | ThemesX | Status | Notes |
-|------------|---------|--------|-------|
-| `theme` | `theme` | ✅ Compatible | Same |
-| `setTheme` | `setTheme` | ✅ Compatible | Same |
-| `systemTheme` | `systemTheme` | ✅ Compatible | Same |
-| `themes` | `themes` | ✅ Compatible | Enhanced |
-| `resolvedTheme` | `resolvedTheme` | ✅ Compatible | Same |
-| `forcedTheme` | N/A | ❌ Not supported | - |
+| next-themes     | ThemesX         | Status           | Notes    |
+| --------------- | --------------- | ---------------- | -------- |
+| `theme`         | `theme`         | ✅ Compatible    | Same     |
+| `setTheme`      | `setTheme`      | ✅ Compatible    | Same     |
+| `systemTheme`   | `systemTheme`   | ✅ Compatible    | Same     |
+| `themes`        | `themes`        | ✅ Compatible    | Enhanced |
+| `resolvedTheme` | `resolvedTheme` | ✅ Compatible    | Same     |
+| `forcedTheme`   | N/A             | ❌ Not supported | -        |
 
 ## Step-by-Step Migration
 
 ### Step 1: Basic Setup (Next.js App Router)
 
 **Before (next-themes):**
+
 ```tsx
 // app/providers.tsx
-'use client';
+"use client";
 
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider } from "next-themes";
 
 export function Providers({ children }) {
   return (
@@ -100,32 +105,30 @@ export function Providers({ children }) {
 ```
 
 **After (ThemesX):**
+
 ```tsx
 // app/providers.tsx
-'use client';
+"use client";
 
-import { ThemeProvider } from 'themesx';
+import { ThemeProvider } from "themesx";
 
 export function Providers({ children }) {
-  return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystemTheme>
-      {children}
-    </ThemeProvider>
-  );
+  return <ThemeProvider enableSystemTheme>{children}</ThemeProvider>;
 }
 ```
 
 ### Step 2: Update Theme Toggle
 
 **Before (next-themes):**
+
 ```tsx
-import { useTheme } from 'next-themes';
+import { useTheme } from "next-themes";
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  
+
   return (
-    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
       Toggle
     </button>
   );
@@ -133,14 +136,15 @@ function ThemeToggle() {
 ```
 
 **After (ThemesX):**
+
 ```tsx
-import { useTheme } from 'themesx';
+import { useTheme } from "themesx";
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  
+
   return (
-    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
       Toggle
     </button>
   );
@@ -169,24 +173,26 @@ If you were using Tailwind with next-themes class strategy, no changes needed:
 ### Step 4: Update Custom Themes (If Any)
 
 **Before (next-themes):**
+
 ```tsx
-<ThemeProvider themes={['light', 'dark', 'system']}>
+<ThemeProvider themes={["light", "dark", "system"]}>
   <App />
 </ThemeProvider>
 ```
 
 **After (ThemesX with Variants):**
+
 ```tsx
 const config = {
   variants: {
-    light: { background: '#ffffff' },
-    dark: { background: '#000000' },
-  }
+    light: { background: "#ffffff" },
+    dark: { background: "#000000" },
+  },
 };
 
 <ThemeProvider config={config}>
   <App />
-</ThemeProvider>
+</ThemeProvider>;
 ```
 
 ## Breaking Changes
@@ -194,11 +200,13 @@ const config = {
 ### 1. `enableSystem` → `enableSystemTheme`
 
 **Before:**
+
 ```tsx
 <ThemeProvider enableSystem>
 ```
 
 **After:**
+
 ```tsx
 <ThemeProvider enableSystemTheme>
 ```
@@ -206,11 +214,13 @@ const config = {
 ### 2. `storageKey` moved to config
 
 **Before:**
+
 ```tsx
 <ThemeProvider storageKey="my-theme">
 ```
 
 **After:**
+
 ```tsx
 <ThemeProvider config={{ storageKey: 'my-theme' }}>
 ```
@@ -218,11 +228,13 @@ const config = {
 ### 3. `themes` prop removed
 
 **Before:**
+
 ```tsx
 <ThemeProvider themes={['light', 'dark', 'custom']}>
 ```
 
 **After:**
+
 ```tsx
 const config = {
   variants: {
@@ -238,11 +250,13 @@ const config = {
 Use `defaultTheme` instead and disable storage if needed:
 
 **Before:**
+
 ```tsx
 <ThemeProvider forcedTheme="dark">
 ```
 
 **After:**
+
 ```tsx
 <ThemeProvider defaultTheme="dark" disableStorage>
 ```
@@ -254,28 +268,29 @@ Use `defaultTheme` instead and disable storage if needed:
 Now you can define custom colors for your themes:
 
 ```tsx
-import { ThemeProvider } from 'themesx';
+import { ThemeProvider } from "themesx";
 
 const config = {
   light: {
-    background: '#ffffff',
-    foreground: '#000000',
-    primary: '#0070f3',
+    background: "#ffffff",
+    foreground: "#000000",
+    primary: "#0070f3",
   },
   dark: {
-    background: '#000000',  // Pure black AMOLED
-    foreground: '#ffffff',
-    primary: '#0090ff',
+    background: "#000000", // Pure black AMOLED
+    foreground: "#ffffff",
+    primary: "#0090ff",
   },
   applyToBody: true,
 };
 
 <ThemeProvider config={config}>
   <App />
-</ThemeProvider>
+</ThemeProvider>;
 ```
 
 Use in CSS:
+
 ```css
 body {
   background: var(--themesx-background);
@@ -290,10 +305,10 @@ Use modern perceptual color space:
 ```tsx
 const config = {
   light: {
-    primary: 'oklch(0.55 0.22 250)',  // Perceptually uniform blue
+    primary: "oklch(0.55 0.22 250)", // Perceptually uniform blue
   },
   dark: {
-    primary: 'oklch(0.65 0.25 250)',  // Brighter for dark mode
+    primary: "oklch(0.65 0.25 250)", // Brighter for dark mode
   },
 };
 ```
@@ -305,24 +320,24 @@ Multiple variants per mode:
 ```tsx
 const config = {
   dark: [
-    { name: 'dark', colors: { background: '#1a1a1a' } },
-    { name: 'amoled', colors: { background: '#000000' } },
-    { name: 'midnight', colors: { background: '#0a0e17' } },
+    { name: "dark", colors: { background: "#1a1a1a" } },
+    { name: "amoled", colors: { background: "#000000" } },
+    { name: "midnight", colors: { background: "#0a0e17" } },
   ],
 };
 
 // Switch variants
 const { setVariant } = useTheme();
-setVariant('amoled');
+setVariant("amoled");
 ```
 
 ### 4. Built-in Presets
 
 ```tsx
-import { themePresets } from 'themesx';
+import { themePresets } from "themesx";
 
 const config = {
-  dark: themePresets.amoled,  // Pure black AMOLED theme
+  dark: themePresets.amoled, // Pure black AMOLED theme
 };
 ```
 
@@ -332,7 +347,7 @@ const config = {
 
 ```tsx
 // app/layout.tsx
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider } from "next-themes";
 
 export default function RootLayout({ children }) {
   return (
@@ -347,13 +362,13 @@ export default function RootLayout({ children }) {
 }
 
 // components/theme-toggle.tsx
-import { useTheme } from 'next-themes';
+import { useTheme } from "next-themes";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  
+
   return (
-    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
       Toggle
     </button>
   );
@@ -364,7 +379,7 @@ export function ThemeToggle() {
 
 ```tsx
 // app/layout.tsx
-import { ThemeProvider } from 'themesx';
+import { ThemeProvider } from "themesx";
 
 export default function RootLayout({ children }) {
   return (
@@ -379,13 +394,13 @@ export default function RootLayout({ children }) {
 }
 
 // components/theme-toggle.tsx
-import { useTheme } from 'themesx';
+import { useTheme } from "themesx";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  
+
   return (
-    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
       Toggle
     </button>
   );
@@ -400,34 +415,34 @@ Now enhance your theme with custom colors:
 
 ```tsx
 // lib/theme-config.ts
-import { createTheme } from 'themesx';
+import { createTheme } from "themesx";
 
 export const themeConfig = createTheme({
   light: {
-    background: '#ffffff',
-    foreground: '#0a0a0a',
-    primary: '#0070f3',
-    secondary: '#7928ca',
-    accent: '#f81ce5',
-    muted: '#f5f5f5',
-    border: '#e5e7eb',
+    background: "#ffffff",
+    foreground: "#0a0a0a",
+    primary: "#0070f3",
+    secondary: "#7928ca",
+    accent: "#f81ce5",
+    muted: "#f5f5f5",
+    border: "#e5e7eb",
   },
   dark: {
-    background: '#000000',  // AMOLED
-    foreground: '#ededed',
-    primary: '#0090ff',
-    secondary: '#8b5cf6',
-    accent: '#ff2db4',
-    muted: '#1a1a1a',
-    border: '#2a2a2a',
+    background: "#000000", // AMOLED
+    foreground: "#ededed",
+    primary: "#0090ff",
+    secondary: "#8b5cf6",
+    accent: "#ff2db4",
+    muted: "#1a1a1a",
+    border: "#2a2a2a",
   },
   applyToBody: true,
   forceColorScheme: true,
 });
 
 // app/layout.tsx
-import { ThemeProvider } from 'themesx';
-import { themeConfig } from '@/lib/theme-config';
+import { ThemeProvider } from "themesx";
+import { themeConfig } from "@/lib/theme-config";
 
 export default function RootLayout({ children }) {
   return (
@@ -491,13 +506,15 @@ Use semantic CSS variables:
 Update your tests from next-themes:
 
 **Before:**
+
 ```tsx
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider } from "next-themes";
 ```
 
 **After:**
+
 ```tsx
-import { ThemeProvider } from 'themesx';
+import { ThemeProvider } from "themesx";
 ```
 
 All test logic remains the same!
